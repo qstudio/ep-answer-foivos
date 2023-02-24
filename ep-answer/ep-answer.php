@@ -10,6 +10,8 @@ Author: Foivos Apostolidis
 // Block direct call
 if (!defined('ABSPATH')) exit;
 
+use Validators\ValidateEpAnswer;
+
 
 function ep_answer_url_handler()
 {
@@ -30,7 +32,7 @@ function ep_answer_url_handler()
 ?>
         <form method="POST" action="/update-ep-answer">
             <label>EP Answer</label>
-            <input name="ep-answer" type="text" value="<?php echo $ep_answer ?>" />
+            <input name="ep_answer" type="text" value="<?php echo $ep_answer ?>" />
             <button type="submit">Save</button>
         </form>
     <?php
@@ -41,7 +43,18 @@ function ep_answer_url_handler()
     if ($_SERVER["REQUEST_URI"] == '/update-ep-answer' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once("src/AfcEpAnswer.php");
 
-        $ep_answer = htmlentities($_POST["ep-answer"]);
+        // Validate
+        $validator = new ValidateEpAnswer($_POST["ep_answer"]);
+        $validator->validate();
+
+        if (!$validator->isValid()) {
+            // TODO: Manage error or throw new Exception
+            var_dump($validator->getErrors());
+            die;
+        }
+
+        // Update
+        $ep_answer = $validator->getEpAnswer();
         $update = (new AfcEpAnswer())->update($ep_answer);
 
         if (!$update) {
@@ -94,7 +107,19 @@ function edit_user_profile_ep_answer($user_id)
     }
 
     require_once('src/AfcEpAnswer.php');
-    $ep_answer = htmlentities($_REQUEST['ep_answer']);
+
+    // Validate
+    $validator = new ValidateEpAnswer($_REQUEST['ep_answer']);
+    $validator->validate();
+
+    if (!$validator->isValid()) {
+        // TODO: Manage error or throw new Exception
+        var_dump($validator->getErrors());
+        die;
+    }
+
+    // Update
+    $ep_answer = $validator->getEpAnswer();
     (new AfcEpAnswer())->update($ep_answer);
 }
 add_action('personal_options_update', 'edit_user_profile_ep_answer');

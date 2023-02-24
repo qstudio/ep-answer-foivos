@@ -52,12 +52,12 @@ class AfcEpAnswer
      * Update value of ep_answer
      * Ref: https://developer.wordpress.org/reference/functions/update_user_meta/
      *
-     * @param string $meta_value
+     * @param string $ep_answer
      * @return void
      */
-    public function update($meta_value)
+    public function update($ep_answer)
     {
-        return $this->ep_answer = update_field($this->meta_key, $meta_value, $this->user_id);
+        return $this->ep_answer = update_field($this->meta_key, $ep_answer, $this->user_id);
     }
 
     /**
