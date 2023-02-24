@@ -17,14 +17,16 @@ This short test is designed to allow you to demonstrate your coding style, stand
 
 ## Tasks:
 
-- Create new WordPress plugin called “EP Answer”
-- Create a form which exposes a user meta field called “EP Answer” on domain.com/ep-answer - without using a page or post.
-- Hide form from non-authenticated users
+- Create new WordPress plugin called “EP Answer” (**done**)
+- Create 
+  - a form which exposes a user meta field called “EP Answer” 
+  - on domain.com/ep-answer - without using a page or post. (**done**)
+- Hide form from non-authenticated users (**done**)
 - Form data should be retrieved and updated on save using ACF functions
 - Expose additional user meta data in admin/profile view
 - Bonus
   - Expose new user meta field data via REST API
   - Validate form field on submit
   - Add unit test for backend save routine
-- Push updates to Github repo on “test” branch of provided Repo [**done**]
+- Push updates to Github repo on “test” branch of provided Repo (**done**)
   - Pull request
