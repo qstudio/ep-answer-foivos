@@ -25,7 +25,7 @@ This short test is designed to allow you to demonstrate your coding style, stand
 - Form data should be retrieved and updated on save using ACF functions (**done**)
 - Expose additional user meta data in admin/profile view (**done**)
 - Bonus
-  - Expose new user meta field data via REST API
+  - Expose new user meta field data via REST API (**done**)
   - Validate form field on submit
   - Add unit test for backend save routine
 - Push updates to Github repo on “test” branch of provided Repo (**done**)

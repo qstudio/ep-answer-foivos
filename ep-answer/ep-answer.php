@@ -100,3 +100,21 @@ function edit_user_profile_ep_answer($user_id)
 add_action('personal_options_update', 'edit_user_profile_ep_answer');
 // save another user's profile
 // add_action('edit_user_profile_update', 'edit_user_profile_ep_answer');
+
+
+/** Expose user meta data to api */
+// https://oj.test/wp-json/wp/v2/users/5
+// Ref: https://developer.wordpress.org/rest-api/extending-the-rest-api/modifying-responses/#read-and-write-a-post-meta-field-in-post-responses
+
+$object_type = 'user';
+$meta_args = array(
+    // validate and sanitise
+    'type'         => 'string',
+    // Shown in the schema for the meta key.
+    'description'  => 'EP Answer customer user meta field',
+    // Return the string.
+    'single'       => true,
+    // Show in the WP REST API response. Default: false.
+    'show_in_rest' => true,
+);
+register_meta($object_type, 'ep_answer', $meta_args);
