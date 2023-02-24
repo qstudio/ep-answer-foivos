@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) exit;
 function ep_answer_url_handler()
 {
     if ($_SERVER["REQUEST_URI"] == '/ep-answer') {
-        require_once("src/EpAnswer.php");
+        require_once("src/AfcEpAnswer.php");
 
         if (!is_user_logged_in()) {
             echo "Please log in to access the form.";
@@ -22,7 +22,7 @@ function ep_answer_url_handler()
         }
 
         echo "<h1>EP Answer Form</h1>";
-        $ep_answer = (new EpAnswer())->get();
+        $ep_answer = (new AfcEpAnswer())->get();
 
         if (empty($ep_answer)) {
             echo "EP Answer not set.";
@@ -39,10 +39,10 @@ function ep_answer_url_handler()
 
     // Update post
     if ($_SERVER["REQUEST_URI"] == '/update-ep-answer' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        require_once("src/EpAnswer.php");
+        require_once("src/AfcEpAnswer.php");
 
         $ep_answer = htmlentities($_POST["ep-answer"]);
-        $update = (new EpAnswer())->update($ep_answer);
+        $update = (new AfcEpAnswer())->update($ep_answer);
 
         if (!$update) {
             echo "Unable to update";

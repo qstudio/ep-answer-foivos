@@ -18,11 +18,11 @@ This short test is designed to allow you to demonstrate your coding style, stand
 ## Tasks:
 
 - Create new WordPress plugin called “EP Answer” (**done**)
-- Create 
+- Create
   - a form which exposes a user meta field called “EP Answer” (**done**)
   - on domain.com/ep-answer - without using a page or post. (**done**)
 - Hide form from non-authenticated users (**done**)
-- Form data should be retrieved and updated on save using ACF functions
+- Form data should be retrieved and updated on save using ACF functions (**done**)
 - Expose additional user meta data in admin/profile view
 - Bonus
   - Expose new user meta field data via REST API
