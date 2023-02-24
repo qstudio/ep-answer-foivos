@@ -23,7 +23,7 @@ This short test is designed to allow you to demonstrate your coding style, stand
   - on domain.com/ep-answer - without using a page or post. (**done**)
 - Hide form from non-authenticated users (**done**)
 - Form data should be retrieved and updated on save using ACF functions (**done**)
-- Expose additional user meta data in admin/profile view
+- Expose additional user meta data in admin/profile view (**done**)
 - Bonus
   - Expose new user meta field data via REST API
   - Validate form field on submit
