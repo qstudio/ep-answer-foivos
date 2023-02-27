@@ -43,6 +43,8 @@ function ep_answer_url_handler()
     if ($_SERVER["REQUEST_URI"] == '/update-ep-answer' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once("src/AfcEpAnswer.php");
 
+        // TODO: Check Logged in
+
         // Validate
         $validator = new ValidateEpAnswer($_POST["ep_answer"]);
         $validator->validate();
