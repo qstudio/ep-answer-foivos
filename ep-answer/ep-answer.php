@@ -10,7 +10,10 @@ Author: Foivos Apostolidis
 // Block direct call
 if (!defined('ABSPATH')) exit;
 
-use Validators\ValidateEpAnswer;
+require 'vendor/autoload.php';
+
+use App\AfcEpAnswer;
+use App\Validators\ValidateEpAnswer;
 
 
 function ep_answer_url_handler()
@@ -43,7 +46,10 @@ function ep_answer_url_handler()
     if ($_SERVER["REQUEST_URI"] == '/update-ep-answer' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once("src/AfcEpAnswer.php");
 
-        // TODO: Check Logged in
+        if (!is_user_logged_in()) {
+            echo "Please log in to update ep answer";
+            exit;
+        }
 
         // Validate
         $validator = new ValidateEpAnswer($_POST["ep_answer"]);
@@ -57,12 +63,13 @@ function ep_answer_url_handler()
 
         // Update
         $ep_answer = $validator->getEpAnswer();
-        $update = (new AfcEpAnswer())->update($ep_answer);
+        $acf = new AfcEpAnswer();
+        $updated = $acf->update($ep_answer);
 
-        if (!$update) {
-            echo "Unable to update";
-        } else {
+        if ($acf->get() == $ep_answer || $updated) {
             echo "Succesfully updated ep answer to: " . $ep_answer;
+        } else {
+            echo "Unable to update";
         }
 
         echo "<br><a href='/ep-answer'>View form</a>";

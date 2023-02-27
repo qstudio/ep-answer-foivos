@@ -5,66 +5,6 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
 {
     protected $user_id = null;
 
-    protected function setUp(): void
-    {
-        $this->createUser();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->deleteUser();
-    }
-
-    /**
-     * Create User
-     * Ref: https://developer.wordpress.org/reference/functions/wp_create_user/
-     *
-     * @return void
-     */
-    protected function createUser()
-    {
-        // assume user does not exist
-        $user = false;
-
-        // if user id is not set, find user
-        if ($this->user_id === null) {
-            $user = get_user_by('email', 'test@gmail.com');
-        }
-
-        // Get user's id if it exists
-        if ($user instanceof WP_User) {
-            $this->user_id = $user->ID;
-
-            return;
-        }
-
-        // create user
-        $this->user_id = wp_create_user('test_user', 'wZNld1gS', 'test@gmail.com');
-    }
-
-    /**
-     * Delete User
-     * Ref: https://developer.wordpress.org/reference/functions/wp_delete_user/
-     *
-     * @return void
-     */
-    protected function deleteUser()
-    {
-        //TODO: Make sure it delets the user
-        $user = false;
-
-        if ($this->user_id === null) {
-            $user = get_user_by('email', 'test@gmail.com');
-            // $user = get_user_by('id', $this->user_id);
-        }
-
-        if (!$user instanceof WP_User) {
-            return false;
-        }
-
-        wp_delete_user($this->user_id);
-    }
-
     /**
      * Test hooked functions are registered and plugin is activated
      *
@@ -104,13 +44,13 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
      */
     public function test_url_ep_answer_on_user()
     {
-        // TODO: Generate cookie
+        $this->createUser();
+
+        // Headers
         $headers = [
             'method' => 'GET',
-            'cookies' => ['wordpress_logged_in_e7792b574d9d2e2dad8c5814fe47e5ce' => 'leventis%7C1677617267%7C7RUp7cD8TZNBUJ4vcKsyDbGav69LFDI5pW6fjS6g80o%7C1d120c9b73f57f7fe1eec7fe9f3ff34690c1a1d38f5729471a969eec53f2bd94']
+            'cookies' => $this->getCookie()
         ];
-
-        // create user
         $url = get_site_url() . '/ep-answer';
         $response = wp_remote_request($url, $headers);
         $body = wp_remote_retrieve_body($response);
@@ -121,17 +61,20 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
 
         $contains = strpos($body, 'EP Answer Form');
         $this->assertTrue($contains !== false);
+
+        $this->deleteUser();
     }
 
     public function test_posting_data_to_ep_form()
     {
-        // TODO: Generate cookie
+        $this->createUser();
+
         $headers = [
             'body'        => [
                 'ep_answer' => 'PokoPoko',
             ],
             'method' => 'POST',
-            'cookies' => ['wordpress_logged_in_e7792b574d9d2e2dad8c5814fe47e5ce' => 'leventis%7C1677617267%7C7RUp7cD8TZNBUJ4vcKsyDbGav69LFDI5pW6fjS6g80o%7C1d120c9b73f57f7fe1eec7fe9f3ff34690c1a1d38f5729471a969eec53f2bd94']
+            'cookies' => $this->getCookie()
         ];
 
         // create user
@@ -139,12 +82,62 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
         $response = wp_remote_request($url, $headers);
         $body = wp_remote_retrieve_body($response);
 
-        var_dump($body);
-
         $contains = strpos($body, 'Succesfully updated ep answer to: PokoPoko');
 
         $this->assertTrue($contains !== false);
+
+        $this->deleteUser();
     }
 
-    // json user meta exists
+    /**
+     * Create User
+     * Ref: https://developer.wordpress.org/reference/functions/wp_create_user/
+     *
+     * @return void
+     */
+    protected function createUser()
+    {
+        // assume user does not exist
+        $user = false;
+
+        // if user id is not set, find user
+        if ($this->user_id === null) {
+            $user = get_user_by('email', 'test@gmail.com');
+        }
+
+        // Get user's id if it exists
+        if ($user instanceof WP_User) {
+            $this->user_id = $user->ID;
+
+            return;
+        }
+
+        // create user
+        $this->user_id = wp_create_user('test_user', 'wZNld1gS', 'test@gmail.com');
+    }
+
+    /**
+     * Delete User
+     * Ref: https://developer.wordpress.org/reference/functions/wp_delete_user/
+     *
+     * @return void
+     */
+    protected function deleteUser()
+    {
+        require_once(ABSPATH . 'wp-admin/includes/user.php');
+        wp_delete_user($this->user_id);
+    }
+
+    /**
+     * Cookie used to authenticate user on request
+     * TODO: Generate cookie
+     *
+     * @return void
+     */
+    protected function getCookie()
+    {
+        return [
+            'wordpress_logged_in_e7792b574d9d2e2dad8c5814fe47e5ce' => 'leventis%7C1677617267%7C7RUp7cD8TZNBUJ4vcKsyDbGav69LFDI5pW6fjS6g80o%7C1d120c9b73f57f7fe1eec7fe9f3ff34690c1a1d38f5729471a969eec53f2bd94'
+        ];
+    }
 }

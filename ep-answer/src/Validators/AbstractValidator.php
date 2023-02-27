@@ -1,6 +1,6 @@
 <?php
 
-namespace Validators;
+namespace App\Validators;
 
 /**
  * AbstractValidator validating functions

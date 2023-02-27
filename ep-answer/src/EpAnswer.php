@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 /**
  * Wrapper class for ep_answer user meta filed
  */

@@ -1,6 +1,11 @@
 {
     "name": "underthecocotree/ep-answer",
     "description": "Add Ep Answer custom meta data to user",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "PluginTests\\": "tests/"

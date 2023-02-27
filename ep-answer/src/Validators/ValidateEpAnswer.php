@@ -1,6 +1,6 @@
 <?php
 
-namespace Validators;
+namespace App\Validators;
 
 /**
  * Validate and Sanitise Ep Answer User Meta data
@@ -48,7 +48,7 @@ class ValidateEpAnswer extends AbstractValidator
     public function validate()
     {
         // required
-        if (isset($this->ep_answer) && !empty($this->ep_answer)) {
+        if (!isset($this->ep_answer) || empty($this->ep_answer)) {
             $this->errors['required'] = 'Ep Answer cannot be empty';
 
             return false;
@@ -62,7 +62,7 @@ class ValidateEpAnswer extends AbstractValidator
         }
 
         // greater than 3 characters
-        if (3 < strlen(trim($this->ep_answer))) {
+        if (strlen(trim($this->ep_answer)) < 3) {
             $this->errors['length'] = 'Ep Answer needs to be greater than 3 characters';
 
             return false;
