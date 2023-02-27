@@ -24,7 +24,7 @@ class Validate_Ep_Answer extends Abstract_Validator
      *
      * @return string
      */
-    public function getEpAnswer()
+    public function get_ep_answer()
     {
         return $this->ep_answer;
     }

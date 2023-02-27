@@ -12,12 +12,14 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
      */
     public function test_hooked_functions()
     {
-        // ep-answer url hook
-        $this->assertTrue(function_exists('ep_answer_url_handler'));
+        // Plugin Class exists
+        $this->assertTrue(class_exists('Ep_Answer_Plugin'));
 
-        // Admin edit and view field hooks
-        $this->assertTrue(function_exists('ep_answer_user_profile_field'));
-        $this->assertTrue(function_exists('edit_user_profile_ep_answer'));
+        // Test hooked methods exist
+        $this->assertTrue(method_exists('Ep_Answer_Plugin', 'register_ep_answer_url'));
+        $this->assertTrue(method_exists('Ep_Answer_Plugin', 'register_update_ep_answer_url'));
+        $this->assertTrue(method_exists('Ep_Answer_Plugin', 'show_ep_answer_in_profile'));
+        $this->assertTrue(method_exists('Ep_Answer_Plugin', 'update_ep_answer_in_profile'));
     }
 
     /**
