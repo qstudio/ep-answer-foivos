@@ -5,29 +5,8 @@ namespace App\Models;
 /**
  * Wrapper class for ep_answer user meta filed
  */
-class Ep_Answer
+class Ep_Answer extends Meta_Field
 {
-    /**
-     * Ep Answer meta field
-     *
-     * @var string
-     */
-    protected $ep_answer;
-
-    /**
-     * User Id
-     *
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * Meta Key value eg. ep_answer;
-     *
-     * @var string
-     */
-    protected $meta_key = 'ep_answer';
-
     public function __construct($ep_answer = '')
     {
         $this->ep_answer = $ep_answer;
@@ -53,7 +32,7 @@ class Ep_Answer
      * @param string $meta_value
      * @return void
      */
-    public function update($meta_value)
+    public function update(string $meta_value)
     {
         return $this->ep_answer = update_user_meta($this->user_id, $this->meta_key, $meta_value);
     }
