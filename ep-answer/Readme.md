@@ -26,6 +26,7 @@ This short test is designed to allow you to demonstrate your coding style, stand
 - Expose additional user meta data in admin/profile view (**done**)
 - Bonus
   - Expose new user meta field data via REST API (**done**)
+    - /wp-json/wp/v2/users/5
   - Validate form field on submit (**done**)
   - Add unit test for backend save routine
 - Push updates to Github repo on “test” branch of provided Repo (**done**)
