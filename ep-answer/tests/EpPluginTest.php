@@ -27,18 +27,18 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
      */
     public function test_url_ep_answer_on_guest()
     {
+        // Request
         $url = get_site_url() . '/ep-answer';
         $response = wp_remote_get($url);
         $body = wp_remote_retrieve_body($response);
 
-        // Not logged in, need to login
+        // Assert
         $contains = strpos($body, 'Please log in to access the form');
-
         $this->assertTrue($contains !== false);
     }
 
     /**
-     * Login user and access url
+     * Login user and access ep answer form
      *
      * @return void
      */
@@ -46,7 +46,7 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
     {
         $this->createUser();
 
-        // Headers
+        // Request
         $headers = [
             'method' => 'GET',
             'cookies' => $this->getCookie()
@@ -55,8 +55,8 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
         $response = wp_remote_request($url, $headers);
         $body = wp_remote_retrieve_body($response);
 
+        // Assert
         $contains = strpos($body, 'Please log in to access the form');
-
         $this->assertFalse($contains);
 
         $contains = strpos($body, 'EP Answer Form');
@@ -69,6 +69,7 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
     {
         $this->createUser();
 
+        // Request
         $headers = [
             'body'        => [
                 'ep_answer' => 'PokoPoko',
@@ -76,14 +77,12 @@ class EpPluginTest extends \PHPUnit\Framework\TestCase
             'method' => 'POST',
             'cookies' => $this->getCookie()
         ];
-
-        // create user
         $url = get_site_url() . '/update-ep-answer';
         $response = wp_remote_request($url, $headers);
         $body = wp_remote_retrieve_body($response);
 
+        // Assert
         $contains = strpos($body, 'Succesfully updated ep answer to: PokoPoko');
-
         $this->assertTrue($contains !== false);
 
         $this->deleteUser();
