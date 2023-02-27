@@ -5,7 +5,7 @@ namespace App\Validators;
 /**
  * AbstractValidator validating functions
  */
-abstract class AbstractValidator
+abstract class Abstract_Validator
 {
     /**
      * @var mixed

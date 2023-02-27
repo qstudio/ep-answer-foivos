@@ -5,7 +5,7 @@ namespace App\Validators;
 /**
  * Validate and Sanitise Ep Answer User Meta data
  */
-class ValidateEpAnswer extends AbstractValidator
+class Validate_Ep_Answer extends Abstract_Validator
 {
     protected $ep_answer;
 

@@ -12,14 +12,12 @@ if (!defined('ABSPATH')) exit;
 
 require 'vendor/autoload.php';
 
-use App\AfcEpAnswer;
-use App\Validators\ValidateEpAnswer;
-
+use App\Models\ACF_Ep_Answer;
+use App\Validators\Validate_Ep_Answer;
 
 function ep_answer_url_handler()
 {
     if ($_SERVER["REQUEST_URI"] == '/ep-answer') {
-        require_once("src/AfcEpAnswer.php");
 
         if (!is_user_logged_in()) {
             echo "Please log in to access the form.";
@@ -27,7 +25,7 @@ function ep_answer_url_handler()
         }
 
         echo "<h1>EP Answer Form</h1>";
-        $ep_answer = (new AfcEpAnswer())->get();
+        $ep_answer = (new ACF_Ep_Answer())->get();
 
         if (empty($ep_answer)) {
             echo "EP Answer not set.";
@@ -44,7 +42,6 @@ function ep_answer_url_handler()
 
     // Update post
     if ($_SERVER["REQUEST_URI"] == '/update-ep-answer' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        require_once("src/AfcEpAnswer.php");
 
         if (!is_user_logged_in()) {
             echo "Please log in to update ep answer";
@@ -52,7 +49,7 @@ function ep_answer_url_handler()
         }
 
         // Validate
-        $validator = new ValidateEpAnswer($_POST["ep_answer"]);
+        $validator = new Validate_Ep_Answer($_POST["ep_answer"]);
         $validator->validate();
 
         if (!$validator->isValid()) {
@@ -63,7 +60,7 @@ function ep_answer_url_handler()
 
         // Update
         $ep_answer = $validator->getEpAnswer();
-        $acf = new AfcEpAnswer();
+        $acf = new ACF_Ep_Answer();
         $updated = $acf->update($ep_answer);
 
         if ($acf->get() == $ep_answer || $updated) {
@@ -85,8 +82,7 @@ add_action('parse_request', 'ep_answer_url_handler');
 // Ref2: https://developer.wordpress.org/reference/hooks/edit_user_profile/
 function ep_answer_user_profile_field($user)
 {
-    require_once('src/AfcEpAnswer.php');
-    $ep_answer = (new AfcEpAnswer())->get();
+    $ep_answer = (new ACF_Ep_Answer())->get();
     ?>
     <h2>Ep Answer</h2>
     <table class="form-table">
@@ -115,10 +111,10 @@ function edit_user_profile_ep_answer($user_id)
         return;
     }
 
-    require_once('src/AfcEpAnswer.php');
+    require_once('src/Models/ACF_Ep_Answer.php');
 
     // Validate
-    $validator = new ValidateEpAnswer($_REQUEST['ep_answer']);
+    $validator = new Validate_Ep_Answer($_REQUEST['ep_answer']);
     $validator->validate();
 
     if (!$validator->isValid()) {
@@ -129,7 +125,7 @@ function edit_user_profile_ep_answer($user_id)
 
     // Update
     $ep_answer = $validator->getEpAnswer();
-    (new AfcEpAnswer())->update($ep_answer);
+    (new ACF_Ep_Answer())->update($ep_answer);
 }
 add_action('personal_options_update', 'edit_user_profile_ep_answer');
 // save another user's profile
